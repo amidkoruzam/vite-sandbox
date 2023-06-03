@@ -4,16 +4,31 @@ import {
   Grid,
   Text,
   Group,
-  Container,
   Box,
   Button,
   Rating,
+  AppShell,
+  Header,
 } from "@mantine/core";
 import { PageProps } from "./index.page.server";
 
 export function Page(pageProps: PageProps) {
   return (
-    <Container>
+    <AppShell
+      header={
+        <Header height={60} p="xs">
+          <Text
+            sx={{ textDecoration: "none" }}
+            component="a"
+            href="/"
+            fz="xl"
+            fw="bold"
+          >
+            Daily Deals
+          </Text>
+        </Header>
+      }
+    >
       <Grid align="stretch">
         {pageProps.products.map(({ id, title, image, rating }) => (
           <Grid.Col span={3} key={id}>
@@ -45,6 +60,6 @@ export function Page(pageProps: PageProps) {
           </Grid.Col>
         ))}
       </Grid>
-    </Container>
+    </AppShell>
   );
 }
