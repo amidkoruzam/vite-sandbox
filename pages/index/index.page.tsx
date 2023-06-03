@@ -9,14 +9,24 @@ import {
   Rating,
   AppShell,
   Header,
+  ActionIcon,
 } from "@mantine/core";
+import { IconShoppingCart } from "@tabler/icons-react";
 import { PageProps } from "./index.page.server";
 
 export function Page(pageProps: PageProps) {
   return (
     <AppShell
       header={
-        <Header height={60} p="xs">
+        <Header
+          height={60}
+          p="xs"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Text
             sx={{ textDecoration: "none" }}
             component="a"
@@ -26,6 +36,10 @@ export function Page(pageProps: PageProps) {
           >
             Daily Deals
           </Text>
+
+          <ActionIcon size="xl">
+            <IconShoppingCart />
+          </ActionIcon>
         </Header>
       }
     >
