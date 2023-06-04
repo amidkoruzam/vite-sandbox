@@ -9,10 +9,9 @@ import {
   Rating,
   AppShell,
   Header,
-  ActionIcon,
 } from "@mantine/core";
-import { IconShoppingCart } from "@tabler/icons-react";
 import { PageProps } from "./index.page.server";
+import { HeaderCart } from "#root/src/features/cart";
 
 export function Page(pageProps: PageProps) {
   return (
@@ -37,9 +36,7 @@ export function Page(pageProps: PageProps) {
             Daily Deals
           </Text>
 
-          <ActionIcon size="xl">
-            <IconShoppingCart />
-          </ActionIcon>
+          <HeaderCart />
         </Header>
       }
     >
