@@ -10,3 +10,10 @@ export type ProductObject = {
     count: number;
   };
 };
+
+export type CartObject = {
+  id: number;
+  userId: number;
+  date: string;
+  products: { productId: number; quantity: number }[];
+};

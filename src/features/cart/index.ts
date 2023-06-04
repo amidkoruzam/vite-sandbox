@@ -1,1 +1,1 @@
-export { HeaderCart } from "./header-cart";
+export { HeaderCart, useHeaderCart, getHeaderCart } from "./header-cart";
