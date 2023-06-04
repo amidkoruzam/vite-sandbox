@@ -1,1 +1,2 @@
-export { HeaderCart, useHeaderCart, getHeaderCart } from "./header-cart";
+export { HeaderCart, getHeaderCart } from "./header-cart";
+export type { HeaderCartHookProps } from "./header-cart";

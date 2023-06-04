@@ -3,7 +3,11 @@ import { ActionIcon } from "@mantine/core";
 import { IconShoppingCart } from "@tabler/icons-react";
 import { CartDrawer } from "./cart-drawer";
 
-export const HeaderCart = () => {
+type Props = {
+  items: unknown[];
+};
+
+export const HeaderCart = ({ items }: Props) => {
   const [isCartDrawerVisible, setCartDrawerVisible] = React.useState(false);
 
   return (
@@ -14,7 +18,7 @@ export const HeaderCart = () => {
 
       <CartDrawer
         isOpen={isCartDrawerVisible}
-        items={[]}
+        items={items}
         onClose={() => setCartDrawerVisible(false)}
       />
     </>

@@ -15,7 +15,7 @@ export const CartDrawer = ({ isOpen, onClose, items }: Props) => {
 
       <Stack>
         {items.map((_, index) => (
-          <Box>{index}</Box>
+          <Box key={index}>{index}</Box>
         ))}
       </Stack>
     </Drawer>

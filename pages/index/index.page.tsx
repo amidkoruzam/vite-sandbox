@@ -36,7 +36,7 @@ export function Page(pageProps: PageProps) {
             Daily Deals
           </Text>
 
-          <HeaderCart />
+          <HeaderCart items={pageProps.cart.products} />
         </Header>
       }
     >
