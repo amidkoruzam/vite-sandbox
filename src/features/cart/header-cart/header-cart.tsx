@@ -2,9 +2,10 @@ import React from "react";
 import { ActionIcon } from "@mantine/core";
 import { IconShoppingCart } from "@tabler/icons-react";
 import { CartDrawer } from "./cart-drawer";
+import { HeaderCartProduct } from "./model";
 
 type Props = {
-  items: unknown[];
+  items: HeaderCartProduct[];
 };
 
 export const HeaderCart = ({ items }: Props) => {
