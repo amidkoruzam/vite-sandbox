@@ -1,6 +1,7 @@
 import * as React from "react";
 import { hydrateRoot } from "react-dom/client";
 import { PageContextClient } from "./types";
+import { MantineProvider } from "@mantine/core";
 
 export async function render(pageContext: PageContextClient) {
   const { Page, pageProps } = pageContext;
@@ -17,5 +18,12 @@ export async function render(pageContext: PageContextClient) {
     throw new Error("DOM element #react-root not found");
   }
 
-  hydrateRoot(root, <Page {...pageProps} />);
+  hydrateRoot(
+    root,
+    <MantineProvider
+      theme={{ globalStyles: () => ({ body: { margin: 0, padding: 0 } }) }}
+    >
+      <Page {...pageProps} />
+    </MantineProvider>
+  );
 }
