@@ -13,14 +13,21 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   items: HeaderCartProduct[];
+  totalPrice: number;
 };
 
-export const CartDrawer = ({ isOpen, onClose, items }: Props) => {
+export const CartDrawer = ({ isOpen, onClose, totalPrice, items }: Props) => {
   return (
     <Drawer opened={isOpen} onClose={onClose} title="Cart">
-      <Button component="a" href="/">
-        Checkout
-      </Button>
+      <Flex justify={"space-between"} align={"center"}>
+        <Button component="a" href="/">
+          Checkout
+        </Button>
+
+        <Text fw="bold" size="lg">
+          Total: {totalPrice / 100}$
+        </Text>
+      </Flex>
 
       <Box sx={{ marginTop: 30 }}>
         {items.map(({ product, quantity }, index) => (

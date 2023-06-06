@@ -5,6 +5,7 @@ import { ProductObject } from "#root/src/shared/api/types";
 export type HeaderCartHookProps = {
   cartId: number;
   products: HeaderCartProduct[];
+  totalPriceInCents: number;
 };
 
 export type HeaderCartProduct = {
@@ -22,7 +23,12 @@ export const getHeaderCart = async () => {
     })
   );
 
-  return { cartId: response.id, products };
+  const totalPriceInCents = products.reduce(
+    (acc, product) => acc + product.quantity * product.product.centsPerItem,
+    0
+  );
+
+  return { cartId: response.id, products, totalPriceInCents };
 };
 
 export const useHeaderCart = (cart: HeaderCartHookProps) => {

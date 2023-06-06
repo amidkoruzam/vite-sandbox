@@ -36,7 +36,10 @@ export function Page(pageProps: PageProps) {
             Daily Deals
           </Text>
 
-          <HeaderCart items={pageProps.cart.products} />
+          <HeaderCart
+            totalPrice={pageProps.cart.totalPriceInCents}
+            items={pageProps.cart.products}
+          />
         </Header>
       }
     >

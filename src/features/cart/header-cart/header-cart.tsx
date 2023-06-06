@@ -6,9 +6,10 @@ import { HeaderCartProduct } from "./model";
 
 type Props = {
   items: HeaderCartProduct[];
+  totalPrice: number;
 };
 
-export const HeaderCart = ({ items }: Props) => {
+export const HeaderCart = ({ items, totalPrice }: Props) => {
   const [isCartDrawerVisible, setCartDrawerVisible] = React.useState(false);
 
   return (
@@ -20,6 +21,7 @@ export const HeaderCart = ({ items }: Props) => {
       <CartDrawer
         isOpen={isCartDrawerVisible}
         items={items}
+        totalPrice={totalPrice}
         onClose={() => setCartDrawerVisible(false)}
       />
     </>
