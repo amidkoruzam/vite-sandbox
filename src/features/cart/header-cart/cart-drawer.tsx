@@ -14,9 +14,22 @@ type Props = {
   onClose: () => void;
   items: HeaderCartProduct[];
   totalPrice: number;
+  changeProductQuantity: ({
+    productId,
+    quantity,
+  }: {
+    productId: number;
+    quantity: number;
+  }) => void;
 };
 
-export const CartDrawer = ({ isOpen, onClose, totalPrice, items }: Props) => {
+export const CartDrawer = ({
+  isOpen,
+  onClose,
+  totalPrice,
+  items,
+  changeProductQuantity,
+}: Props) => {
   return (
     <Drawer opened={isOpen} onClose={onClose} title="Cart">
       <Flex justify={"space-between"} align={"center"}>
@@ -62,7 +75,17 @@ export const CartDrawer = ({ isOpen, onClose, totalPrice, items }: Props) => {
               }}
             >
               <Box w={75}>
-                <NumberInput min={1} value={quantity} />
+                <NumberInput
+                  onChange={(number) =>
+                    number &&
+                    changeProductQuantity({
+                      quantity: number,
+                      productId: product.id,
+                    })
+                  }
+                  min={1}
+                  value={quantity}
+                />
               </Box>
 
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

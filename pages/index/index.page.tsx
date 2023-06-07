@@ -10,10 +10,12 @@ import {
   AppShell,
   Header,
 } from "@mantine/core";
+import { HeaderCart, useHeaderCart } from "#root/src/features/cart";
 import { PageProps } from "./index.page.server";
-import { HeaderCart } from "#root/src/features/cart";
 
 export function Page(pageProps: PageProps) {
+  const { cart, changeProductQuantity } = useHeaderCart(pageProps.cart);
+
   return (
     <AppShell
       header={
@@ -37,8 +39,9 @@ export function Page(pageProps: PageProps) {
           </Text>
 
           <HeaderCart
-            totalPrice={pageProps.cart.totalPriceInCents}
-            items={pageProps.cart.products}
+            changeProductQuantity={changeProductQuantity}
+            totalPrice={cart.totalPriceInCents}
+            items={cart.products}
           />
         </Header>
       }

@@ -1,6 +1,7 @@
 import { getCart } from "#root/src/shared/api/cart";
 import { getProductById } from "#root/src/shared/api/get-product-by-id";
 import { ProductObject } from "#root/src/shared/api/types";
+import React from "react";
 
 export type HeaderCartHookProps = {
   cartId: number;
@@ -32,6 +33,27 @@ export const getHeaderCart = async () => {
 };
 
 export const useHeaderCart = (cart: HeaderCartHookProps) => {
+  const [state, setState] = React.useState(cart);
+
+  const changeProductQuantity = ({
+    productId,
+    quantity,
+  }: {
+    productId: number;
+    quantity: number;
+  }) => {
+    const products = state.products.map((item) =>
+      productId === item.product.id ? { ...item, quantity } : item
+    );
+
+    const total = products.reduce(
+      (acc, item) => acc + item.product.centsPerItem * item.quantity,
+      0
+    );
+
+    setState({ ...state, products, totalPriceInCents: total });
+  };
+
   const addToCart = ({ productId }: { productId: number }) => {
     const product = cart.products.find(
       ({ product }) => product.id === productId
@@ -39,5 +61,5 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     console.log(product);
   };
 
-  return { addToCart };
+  return { changeProductQuantity, addToCart, cart: state };
 };
