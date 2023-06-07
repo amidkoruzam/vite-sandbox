@@ -72,6 +72,7 @@ export const CartDrawer = ({
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                alignItems: "flex-end",
               }}
             >
               <Box w={75}>
