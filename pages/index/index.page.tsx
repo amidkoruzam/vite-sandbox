@@ -3,12 +3,12 @@ import {
   Image,
   Grid,
   Text,
-  Group,
   Box,
   Button,
   Rating,
   AppShell,
   Header,
+  Flex,
 } from "@mantine/core";
 import { HeaderCart, useHeaderCart } from "#root/src/features/cart";
 import { PageProps } from "./index.page.server";
@@ -58,43 +58,52 @@ export function Page(pageProps: PageProps) {
       }
     >
       <Grid align="stretch">
-        {products.map(({ id, title, image, rating, addedToCart }, index) => (
-          <Grid.Col span={3} key={id}>
-            <Card
-              sx={{ display: "flex", flexDirection: "column", height: "100%" }}
-              shadow="sm"
-              padding="lg"
-              radius="md"
-              withBorder
-            >
-              <Box mx="auto" sx={{ width: "80%" }}>
-                <Image
-                  height={180}
-                  fit="contain"
-                  src={image}
-                  alt={title}
-                ></Image>
-              </Box>
+        {products.map(
+          ({ id, title, image, rating, addedToCart, price }, index) => (
+            <Grid.Col span={3} key={id}>
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+              >
+                <Box mx="auto" sx={{ width: "80%" }}>
+                  <Image
+                    height={180}
+                    fit="contain"
+                    src={image}
+                    alt={title}
+                  ></Image>
+                </Box>
 
-              <Group position="apart" mt="md" mb="xs">
-                <Text size="xs">{title}</Text>
-                <Rating value={rating.rate} readOnly />
-              </Group>
+                <Flex direction={"column"} mt="md" mb="xs">
+                  <Text size="xs">{title}</Text>
+                  <Box mt="xs" mb="xs">
+                    <Text size="xs">{price}$</Text>
+                  </Box>
+                  <Rating value={rating.rate} readOnly />
+                </Flex>
 
-              <Box mt="auto">
-                <Button
-                  onClick={() =>
-                    addedToCart
-                      ? increaseProductQuantity(id)
-                      : addToCart({ product: pageProps.products[index] })
-                  }
-                >
-                  Add to cart
-                </Button>
-              </Box>
-            </Card>
-          </Grid.Col>
-        ))}
+                <Box mt="auto">
+                  <Button
+                    onClick={() =>
+                      addedToCart
+                        ? increaseProductQuantity(id)
+                        : addToCart({ product: pageProps.products[index] })
+                    }
+                  >
+                    Add to cart
+                  </Button>
+                </Box>
+              </Card>
+            </Grid.Col>
+          )
+        )}
       </Grid>
     </AppShell>
   );
