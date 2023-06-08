@@ -1,5 +1,5 @@
 import React from "react";
-import { ActionIcon } from "@mantine/core";
+import { Box, Button, Text } from "@mantine/core";
 import { IconShoppingCart } from "@tabler/icons-react";
 import { CartDrawer } from "./cart-drawer";
 import { HeaderCartProduct } from "./model";
@@ -25,9 +25,15 @@ export const HeaderCart = ({
 
   return (
     <>
-      <ActionIcon size="xl" onClick={() => setCartDrawerVisible(true)}>
-        <IconShoppingCart />
-      </ActionIcon>
+      <Button
+        variant="outline"
+        leftIcon={<IconShoppingCart size="1rem" />}
+        onClick={() => setCartDrawerVisible(true)}
+      >
+        <Box>
+          <Text>{totalPrice / 100}$</Text>
+        </Box>
+      </Button>
 
       <CartDrawer
         isOpen={isCartDrawerVisible}
