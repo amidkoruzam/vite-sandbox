@@ -54,12 +54,38 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     setState({ ...state, products, totalPriceInCents: total });
   };
 
-  const addToCart = ({ productId }: { productId: number }) => {
-    const product = cart.products.find(
-      ({ product }) => product.id === productId
+  const increaseProductQuantity = (productId: number) => {
+    const product = state.products.find(
+      (item) => item.product.id === productId
     );
-    console.log(product);
+
+    changeProductQuantity({
+      productId,
+      quantity: (product?.quantity ?? 0) + 1,
+    });
   };
 
-  return { changeProductQuantity, addToCart, cart: state };
+  const addToCart = ({ product }: { product: ProductObject }) => {
+    const centsPerItem = parseFloat(product.price) * 100;
+
+    const products = state.products.concat({
+      product: { ...product, centsPerItem },
+      quantity: 1,
+    });
+
+    const totalPriceInCents = state.totalPriceInCents + centsPerItem;
+
+    setState({ ...state, products, totalPriceInCents });
+  };
+
+  const checkIsProductInCart = (productId: number) =>
+    state.products.some((product) => product.product.id === productId);
+
+  return {
+    changeProductQuantity,
+    addToCart,
+    cart: state,
+    checkIsProductInCart,
+    increaseProductQuantity,
+  };
 };

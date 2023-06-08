@@ -14,7 +14,18 @@ import { HeaderCart, useHeaderCart } from "#root/src/features/cart";
 import { PageProps } from "./index.page.server";
 
 export function Page(pageProps: PageProps) {
-  const { cart, changeProductQuantity } = useHeaderCart(pageProps.cart);
+  const {
+    cart,
+    changeProductQuantity,
+    addToCart,
+    checkIsProductInCart,
+    increaseProductQuantity,
+  } = useHeaderCart(pageProps.cart);
+
+  const products = pageProps.products.map((product) => ({
+    ...product,
+    addedToCart: checkIsProductInCart(product.id),
+  }));
 
   return (
     <AppShell
@@ -47,7 +58,7 @@ export function Page(pageProps: PageProps) {
       }
     >
       <Grid align="stretch">
-        {pageProps.products.map(({ id, title, image, rating }) => (
+        {products.map(({ id, title, image, rating, addedToCart }, index) => (
           <Grid.Col span={3} key={id}>
             <Card
               sx={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -71,7 +82,15 @@ export function Page(pageProps: PageProps) {
               </Group>
 
               <Box mt="auto">
-                <Button>Add to cart</Button>
+                <Button
+                  onClick={() =>
+                    addedToCart
+                      ? increaseProductQuantity(id)
+                      : addToCart({ product: pageProps.products[index] })
+                  }
+                >
+                  Add to cart
+                </Button>
               </Box>
             </Card>
           </Grid.Col>
