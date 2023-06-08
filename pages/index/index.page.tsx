@@ -91,6 +91,7 @@ export function Page(pageProps: PageProps) {
 
                 <Box mt="auto">
                   <Button
+                    fullWidth
                     onClick={() =>
                       addedToCart
                         ? increaseProductQuantity(id)
