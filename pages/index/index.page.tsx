@@ -53,6 +53,7 @@ export function Page(pageProps: PageProps) {
             changeProductQuantity={changeProductQuantity}
             totalPrice={cart.totalPriceInCents}
             items={cart.products}
+            totalProducts={cart.totalProductsAdded}
           />
         </Header>
       }

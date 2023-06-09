@@ -7,6 +7,7 @@ export type HeaderCartHookProps = {
   cartId: number;
   products: HeaderCartProduct[];
   totalPriceInCents: number;
+  totalProductsAdded: number;
 };
 
 export type HeaderCartProduct = {
@@ -29,7 +30,17 @@ export const getHeaderCart = async () => {
     0
   );
 
-  return { cartId: response.id, products, totalPriceInCents };
+  const totalProductsAdded = products.reduce(
+    (acc, product) => acc + product.quantity,
+    0
+  );
+
+  return {
+    cartId: response.id,
+    products,
+    totalPriceInCents,
+    totalProductsAdded,
+  };
 };
 
 export const useHeaderCart = (cart: HeaderCartHookProps) => {
@@ -51,7 +62,17 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
       0
     );
 
-    setState({ ...state, products, totalPriceInCents: total });
+    const totalProductsAdded = products.reduce(
+      (acc, item) => acc + item.quantity,
+      0
+    );
+
+    setState({
+      ...state,
+      products,
+      totalPriceInCents: total,
+      totalProductsAdded,
+    });
   };
 
   const increaseProductQuantity = (productId: number) => {
@@ -75,7 +96,12 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
 
     const totalPriceInCents = state.totalPriceInCents + centsPerItem;
 
-    setState({ ...state, products, totalPriceInCents });
+    setState({
+      ...state,
+      products,
+      totalPriceInCents,
+      totalProductsAdded: state.totalProductsAdded + 1,
+    });
   };
 
   const checkIsProductInCart = (productId: number) =>

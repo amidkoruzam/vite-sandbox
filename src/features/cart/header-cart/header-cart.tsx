@@ -5,6 +5,7 @@ import { CartDrawer } from "./cart-drawer";
 import { HeaderCartProduct } from "./model";
 
 type Props = {
+  totalProducts: number;
   items: HeaderCartProduct[];
   totalPrice: number;
   changeProductQuantity: ({
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export const HeaderCart = ({
+  totalProducts,
   items,
   totalPrice,
   changeProductQuantity,
@@ -31,7 +33,9 @@ export const HeaderCart = ({
         onClick={() => setCartDrawerVisible(true)}
       >
         <Box>
-          <Text>{totalPrice / 100}$</Text>
+          <Text>
+            {totalProducts} items, {totalPrice / 100}$
+          </Text>
         </Box>
       </Button>
 
