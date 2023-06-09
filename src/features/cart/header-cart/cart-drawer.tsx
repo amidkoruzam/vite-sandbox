@@ -45,7 +45,7 @@ export const CartDrawer = ({
       <Box sx={{ marginTop: 30 }}>
         {items.map(({ product, quantity }, index) => (
           <Flex
-            key={index}
+            key={product.id}
             align={"stretch"}
             sx={{
               padding: 10,
@@ -78,13 +78,13 @@ export const CartDrawer = ({
               <Box w={75}>
                 <NumberInput
                   onChange={(number) =>
-                    number &&
+                    number !== "" &&
                     changeProductQuantity({
                       quantity: number,
                       productId: product.id,
                     })
                   }
-                  min={1}
+                  min={0}
                   value={quantity}
                 />
               </Box>

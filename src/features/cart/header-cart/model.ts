@@ -53,9 +53,12 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     productId: number;
     quantity: number;
   }) => {
-    const products = state.products.map((item) =>
-      productId === item.product.id ? { ...item, quantity } : item
-    );
+    const products =
+      quantity === 0
+        ? state.products.filter((item) => item.product.id !== productId)
+        : state.products.map((item) =>
+            productId === item.product.id ? { ...item, quantity } : item
+          );
 
     const total = products.reduce(
       (acc, item) => acc + item.product.centsPerItem * item.quantity,
