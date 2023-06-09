@@ -89,6 +89,17 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     });
   };
 
+  const decreaseProductQuantity = (productId: number) => {
+    const product = state.products.find(
+      (item) => item.product.id === productId
+    );
+
+    changeProductQuantity({
+      productId,
+      quantity: (product?.quantity ?? 0) - 1,
+    });
+  };
+
   const addToCart = ({ product }: { product: ProductObject }) => {
     const centsPerItem = parseFloat(product.price) * 100;
 
@@ -107,8 +118,15 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     });
   };
 
-  const checkIsProductInCart = (productId: number) =>
-    state.products.some((product) => product.product.id === productId);
+  const checkIsProductInCart = (productId: number) => {
+    const product = state.products.find(
+      (product) => product.product.id === productId
+    );
+    return {
+      isAdded: Boolean(product),
+      quantity: product ? product.quantity : 0,
+    };
+  };
 
   return {
     changeProductQuantity,
@@ -116,5 +134,6 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     cart: state,
     checkIsProductInCart,
     increaseProductQuantity,
+    decreaseProductQuantity,
   };
 };

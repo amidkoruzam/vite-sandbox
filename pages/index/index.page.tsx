@@ -9,9 +9,12 @@ import {
   AppShell,
   Header,
   Flex,
+  ActionIcon,
+  NumberInput,
 } from "@mantine/core";
 import { HeaderCart, useHeaderCart } from "#root/src/features/cart";
 import { PageProps } from "./index.page.server";
+import { IconMinus, IconPlus } from "@tabler/icons-react";
 
 export function Page(pageProps: PageProps) {
   const {
@@ -20,6 +23,7 @@ export function Page(pageProps: PageProps) {
     addToCart,
     checkIsProductInCart,
     increaseProductQuantity,
+    decreaseProductQuantity,
   } = useHeaderCart(pageProps.cart);
 
   const products = pageProps.products.map((product) => ({
@@ -91,16 +95,46 @@ export function Page(pageProps: PageProps) {
                 </Flex>
 
                 <Box mt="auto">
-                  <Button
-                    fullWidth
-                    onClick={() =>
-                      addedToCart
-                        ? increaseProductQuantity(id)
-                        : addToCart({ product: pageProps.products[index] })
-                    }
-                  >
-                    Add to cart
-                  </Button>
+                  {addedToCart.isAdded && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ActionIcon onClick={() => decreaseProductQuantity(id)}>
+                        <IconMinus />
+                      </ActionIcon>
+                      <NumberInput
+                        value={addedToCart.quantity}
+                        mx={10}
+                        hideControls
+                        styles={{ input: { width: 50, textAlign: "center" } }}
+                        min={0}
+                        onChange={(value) =>
+                          changeProductQuantity({
+                            productId: id,
+                            quantity: value || 0,
+                          })
+                        }
+                      />
+                      <ActionIcon onClick={() => increaseProductQuantity(id)}>
+                        <IconPlus />
+                      </ActionIcon>
+                    </Box>
+                  )}
+
+                  {!addedToCart.isAdded && (
+                    <Button
+                      fullWidth
+                      onClick={() =>
+                        addToCart({ product: pageProps.products[index] })
+                      }
+                    >
+                      Add to cart
+                    </Button>
+                  )}
                 </Box>
               </Card>
             </Grid.Col>
