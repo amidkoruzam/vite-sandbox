@@ -1,35 +1,24 @@
-import {
-  Card,
-  Image,
-  Grid,
-  Text,
-  Box,
-  Button,
-  Rating,
-  AppShell,
-  Header,
-  Flex,
-  ActionIcon,
-  NumberInput,
-} from "@mantine/core";
+import { Grid, Text, AppShell, Header } from "@mantine/core";
 import { HeaderCart, useHeaderCart } from "#root/src/features/cart";
 import { PageProps } from "./index.page.server";
-import { IconMinus, IconPlus } from "@tabler/icons-react";
+import { ProductCard } from "./components/product-card";
+import { useProductGrid } from "./components/use-product-grid";
 
 export function Page(pageProps: PageProps) {
   const {
     cart,
     changeProductQuantity,
     addToCart,
-    checkIsProductInCart,
+    checkCartForProductQuantity,
     increaseProductQuantity,
     decreaseProductQuantity,
   } = useHeaderCart(pageProps.cart);
 
-  const products = pageProps.products.map((product) => ({
-    ...product,
-    addedToCart: checkIsProductInCart(product.id),
-  }));
+  const { products, addProductByIdToCart } = useProductGrid({
+    addToCart,
+    checkCartForProductQuantity,
+    products: pageProps.products,
+  });
 
   return (
     <AppShell
@@ -64,79 +53,23 @@ export function Page(pageProps: PageProps) {
     >
       <Grid align="stretch">
         {products.map(
-          ({ id, title, image, rating, addedToCart, price }, index) => (
+          ({
+            quantityInCart,
+            product: { id, title, image, rating, price },
+          }) => (
             <Grid.Col span={3} key={id}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                }}
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-              >
-                <Box mx="auto" sx={{ width: "80%" }}>
-                  <Image
-                    height={180}
-                    fit="contain"
-                    src={image}
-                    alt={title}
-                  ></Image>
-                </Box>
-
-                <Flex direction={"column"} mt="md" mb="xs">
-                  <Text size="xs">{title}</Text>
-                  <Box mt="xs" mb="xs">
-                    <Text size="xs">{price}$</Text>
-                  </Box>
-                  <Rating value={rating.rate} readOnly />
-                </Flex>
-
-                <Box mt="auto">
-                  {addedToCart.isAdded && (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <ActionIcon onClick={() => decreaseProductQuantity(id)}>
-                        <IconMinus />
-                      </ActionIcon>
-                      <NumberInput
-                        value={addedToCart.quantity}
-                        mx={10}
-                        hideControls
-                        styles={{ input: { width: 50, textAlign: "center" } }}
-                        min={0}
-                        onChange={(value) =>
-                          changeProductQuantity({
-                            productId: id,
-                            quantity: value || 0,
-                          })
-                        }
-                      />
-                      <ActionIcon onClick={() => increaseProductQuantity(id)}>
-                        <IconPlus />
-                      </ActionIcon>
-                    </Box>
-                  )}
-
-                  {!addedToCart.isAdded && (
-                    <Button
-                      fullWidth
-                      onClick={() =>
-                        addToCart({ product: pageProps.products[index] })
-                      }
-                    >
-                      Add to cart
-                    </Button>
-                  )}
-                </Box>
-              </Card>
+              <ProductCard
+                id={id}
+                image={image}
+                rating={rating.rate}
+                title={title}
+                quantityInCart={quantityInCart}
+                price={price}
+                onAddToCart={addProductByIdToCart}
+                onQuantityChange={changeProductQuantity}
+                onQuantityDecrease={decreaseProductQuantity}
+                onQuantityIncrease={increaseProductQuantity}
+              />
             </Grid.Col>
           )
         )}
