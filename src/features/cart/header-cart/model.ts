@@ -1,7 +1,7 @@
+import React from "react";
 import { getCart } from "#root/src/shared/api/cart";
 import { getProductById } from "#root/src/shared/api/get-product-by-id";
 import { ProductObject } from "#root/src/shared/api/types";
-import React from "react";
 
 export type HeaderCartHookProps = {
   cartId: number;
@@ -118,21 +118,18 @@ export const useHeaderCart = (cart: HeaderCartHookProps) => {
     });
   };
 
-  const checkIsProductInCart = (productId: number) => {
+  const checkCartForProductQuantity = (productId: number) => {
     const product = state.products.find(
       (product) => product.product.id === productId
     );
-    return {
-      isAdded: Boolean(product),
-      quantity: product ? product.quantity : 0,
-    };
+    return product ? product.quantity : 0;
   };
 
   return {
     changeProductQuantity,
     addToCart,
     cart: state,
-    checkIsProductInCart,
+    checkCartForProductQuantity,
     increaseProductQuantity,
     decreaseProductQuantity,
   };
